@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import { upload, uploadDirectory } from "../lib/multer";
+import { uploadDirectory } from "../lib/multer";
 import ApiError from "../helpers/ApiError";
 
 export async function getFiles(
@@ -23,6 +23,20 @@ export async function getFiles(
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     res.status(200).json({ files: fileList });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteFile(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const filepath = path.join(uploadDirectory, req.params.filename);
+    fs.unlinkSync(filepath);
+    res.status(200).json({ message: "File deleted successfully" });
   } catch (error) {
     next(error);
   }

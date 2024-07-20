@@ -3,6 +3,8 @@ import express from "express";
 import filesRoute from "./routes/filesRoute";
 import helmet from "./lib/helmet";
 import limiter from "./lib/expressRateLimit";
+import cors from "cors"; // Import the cors package
+
 import errorHandler from "./middleware/errorHandler";
 import notFound from "./middleware/notFound";
 
@@ -12,6 +14,12 @@ const PORT = process.env.PORT;
 app.use(helmet);
 app.use(limiter);
 
+const corsOptions = {
+  credentials: true,
+  origin: ["http://localhost:3000", "http://localhost:80"], // Whitelist the domains you want to allow
+};
+
+app.use(cors(corsOptions));
 // Initializing routes
 app.use("/api/files", filesRoute);
 
