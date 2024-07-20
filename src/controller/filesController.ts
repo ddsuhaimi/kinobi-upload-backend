@@ -56,6 +56,7 @@ export async function uploadFile(
       .status(200)
       .json({ message: "File uploaded successfully", file: req.file });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 }

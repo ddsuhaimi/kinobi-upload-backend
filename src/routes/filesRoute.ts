@@ -6,11 +6,12 @@ import {
   getFiles,
   uploadFile,
 } from "../controller/filesController";
+import uploadMiddleware from "../middleware/upload";
 
 const router = express.Router();
 
 router.get("/", getFiles);
-router.post("/", uploadLimiter, upload.single("file"), uploadFile);
+router.post("/", uploadLimiter, uploadMiddleware, uploadFile);
 router.delete("/:filename", deleteFile);
 
 export default router;
