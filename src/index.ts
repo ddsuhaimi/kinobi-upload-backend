@@ -16,8 +16,11 @@ app.use(limiter);
 
 const corsOptions = {
   credentials: true,
-  origin: ["http://localhost:3000", "http://localhost:80"], // Whitelist the domains you want to allow
+  origin: ["http://localhost:3000"], // Whitelist the domains you want to allow
 };
+if (process.env.FRONTEND_URL) {
+  corsOptions.origin.push(process.env.FRONTEND_URL);
+}
 
 app.use(cors(corsOptions));
 // Initializing routes
