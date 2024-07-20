@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import filesRoute from "./routes/filesRoute";
 import helmet from "./lib/helmet";
-import bodyParser from "body-parser";
 import limiter from "./lib/expressRateLimit";
 import errorHandler from "./middleware/errorHandler";
 import notFound from "./middleware/notFound";
@@ -14,18 +13,7 @@ app.use(helmet);
 app.use(limiter);
 
 // Initializing routes
-const router = express.Router();
-const defaultRoutes = [
-  {
-    path: "/files",
-    route: filesRoute,
-  },
-];
-defaultRoutes.forEach((route) => {
-  router.use(route.path, route.route);
-});
-
-app.use("/api", router);
+app.use("/api/files", filesRoute);
 
 // Custom Middleware Setup
 app.use(notFound);
